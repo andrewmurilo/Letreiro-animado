@@ -3,46 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Letreiro LED Animado</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
-  }
-
-  h1 { margin-top: 20px; }
-
-  #inputArea {
-    margin: 15px 0;
-  }
-
-  #inputText {
-    padding: 10px;
-    width: 300px;
-    font-size: 16px;
-  }
-
-  #canvasContainer {
-    margin-top: 20px;
-    background: #000;
-    padding: 20px;
-    border-radius: 10px;
-  }
-
-  canvas {
-    border: 2px solid #ff1a1a;
-    background: #000;
-    display: block;
-  }
-</style>
+<title>Letreiro LED</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -53,54 +15,26 @@
   <button onclick="alterarTexto()">Enviar</button>
 </div>
 
+<!-- CONTROLES DO USUÁRIO -->
+<div id="controls">
+
+  <!-- Controle de velocidade -->
+  <label>Velocidade:</label>
+  <input type="range" min="1" max="10" value="2" id="velocidadeRange" oninput="alterarVelocidade(this.value)">
+
+  <!-- Seleção de cor -->
+  <label>Cor do texto:</label>
+  <input type="color" id="corPicker" value="#ff0000" onchange="alterarCor(this.value)">
+
+  <!-- Botão RGB -->
+  <button onclick="toggleRGB()">Modo RGB</button>
+</div>
+
 <div id="canvasContainer">
   <canvas id="letreiro" width="800" height="120"></canvas>
 </div>
 
-<script>
-  const canvas = document.getElementById("letreiro");
-  const ctx = canvas.getContext("2d");
-
-  let texto = "Acredite em você! Você é capaz de tudo.";
-  let x = canvas.width;
-  let velocidade = 2;
-  let indoDireita = false;
-
-  function desenhar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.font = "40px Arial";
-    ctx.fillStyle = "#ff0000";
-    ctx.shadowColor = "#ff4d4d";
-    ctx.shadowBlur = 10;
-
-    ctx.fillText(texto, x, 70);
-
-    if (indoDireita) {
-      x += velocidade;
-      if (x > canvas.width - ctx.measureText(texto).width) {
-        indoDireita = false;
-      }
-    } else {
-      x -= velocidade;
-      if (x < 0) {
-        indoDireita = true;
-      }
-    }
-
-    requestAnimationFrame(desenhar);
-  }
-
-  function alterarTexto() {
-    const novo = document.getElementById("inputText").value.trim();
-    if (novo !== "") {
-      texto = novo;
-      x = canvas.width;
-    }
-  }
-
-  desenhar();
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
