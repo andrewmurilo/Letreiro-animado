@@ -2,7 +2,7 @@ const canvas = document.getElementById("letreiro");
 const ctx = canvas.getContext("2d");
 
 // texto padrão
-let texto = "Acredite em você! Você é capaz de tudo.";
+let texto = "digite algo aqui!.";
 let x = canvas.width;
 let velocidade = 2;
 
