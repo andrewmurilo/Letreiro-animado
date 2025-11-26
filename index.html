@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Letreiro Motivacional</title>
+
+<style>
+    /* Tela onde o letreiro vai se mover */
+    #tela {
+        width: 600px;       /* Largura da tela */
+        height: 120px;      /* Altura da tela */
+        border: 3px solid #333;
+        overflow: hidden;
+        margin: 50px auto;  /* Espaço livre ao redor */
+        display: flex;
+        align-items: center; /* Alinhamento vertical */
+        justify-content: center; /* Alinhamento horizontal */
+        background: #f5f5f5;
+        position: relative;
+    }
+
+    /* Texto do letreiro */
+    #letreiro {
+        position: absolute;
+        font-size: 28px;
+        font-weight: bold;
+        white-space: nowrap;
+        color: #1a73e8;
+    }
+</style>
+
+</head>
+<body>
+
+<div id="tela">
+    <div id="letreiro">Acredite no seu potencial! Você é capaz de realizar grandes coisas! 💪</div>
+</div>
+
+<script>
+    const texto = document.getElementById("letreiro");
+    const tela = document.getElementById("tela");
+
+    let pos = 0;              // posição inicial
+    let velocidade = 2;       // controle da velocidade (px por frame)
+    let direcao = 1;          // 1 = direita, -1 = esquerda
+
+    function animar() {
+        pos += velocidade * direcao;
+        texto.style.left = pos + "px";
+
+        // Limites
+        const limiteDireita = tela.clientWidth - texto.clientWidth;
+        
+        if (pos >= limiteDireita) {
+            direcao = -1;  // voltar
+        } 
+        else if (pos <= 0) {
+            direcao = 1;   // ir
+        }
+
+        requestAnimationFrame(animar);
+    }
+
+    animar();
+</script>
+
+</body>
+</html>

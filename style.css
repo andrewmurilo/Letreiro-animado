@@ -1,0 +1,22 @@
+/* Tela onde o letreiro vai se mover */
+#tela {
+    width: 600px;        /* Largura da tela */
+    height: 120px;       /* Altura da tela */
+    border: 3px solid #333;
+    overflow: hidden;
+    margin: 50px auto;   /* Espaço livre ao redor */
+    display: flex;
+    align-items: center;     /* Alinhamento vertical */
+    justify-content: center; /* Alinhamento horizontal */
+    background: #f5f5f5;
+    position: relative;
+}
+
+/* Texto do letreiro */
+#letreiro {
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #1a73e8;
+}
