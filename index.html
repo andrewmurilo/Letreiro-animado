@@ -2,66 +2,104 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Letreiro Motivacional</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letreiro LED Animado</title>
 <style>
-    /* Tela onde o letreiro vai se mover */
-    #tela {
-        width: 600px;       /* Largura da tela */
-        height: 120px;      /* Altura da tela */
-        border: 3px solid #333;
-        overflow: hidden;
-        margin: 50px auto;  /* Espaço livre ao redor */
-        display: flex;
-        align-items: center; /* Alinhamento vertical */
-        justify-content: center; /* Alinhamento horizontal */
-        background: #f5f5f5;
-        position: relative;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+  }
 
-    /* Texto do letreiro */
-    #letreiro {
-        position: absolute;
-        font-size: 28px;
-        font-weight: bold;
-        white-space: nowrap;
-        color: #1a73e8;
-    }
+  h1 { margin-top: 20px; }
+
+  #inputArea {
+    margin: 15px 0;
+  }
+
+  #inputText {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+  }
+
+  #canvasContainer {
+    margin-top: 20px;
+    background: #000;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  canvas {
+    border: 2px solid #ff1a1a;
+    background: #000;
+    display: block;
+  }
 </style>
-
 </head>
 <body>
 
-<div id="tela">
-    <div id="letreiro">Acredite no seu potencial! Você é capaz de realizar grandes coisas! 💪</div>
+<h1>Letreiro LED Animado</h1>
+
+<div id="inputArea">
+  <input type="text" id="inputText" placeholder="Digite algo para aparecer no letreiro...">
+  <button onclick="alterarTexto()">Enviar</button>
+</div>
+
+<div id="canvasContainer">
+  <canvas id="letreiro" width="800" height="120"></canvas>
 </div>
 
 <script>
-    const texto = document.getElementById("letreiro");
-    const tela = document.getElementById("tela");
+  const canvas = document.getElementById("letreiro");
+  const ctx = canvas.getContext("2d");
 
-    let pos = 0;              // posição inicial
-    let velocidade = 2;       // controle da velocidade (px por frame)
-    let direcao = 1;          // 1 = direita, -1 = esquerda
+  let texto = "Acredite em você! Você é capaz de tudo.";
+  let x = canvas.width;
+  let velocidade = 2;
+  let indoDireita = false;
 
-    function animar() {
-        pos += velocidade * direcao;
-        texto.style.left = pos + "px";
+  function desenhar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Limites
-        const limiteDireita = tela.clientWidth - texto.clientWidth;
-        
-        if (pos >= limiteDireita) {
-            direcao = -1;  // voltar
-        } 
-        else if (pos <= 0) {
-            direcao = 1;   // ir
-        }
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "#ff0000";
+    ctx.shadowColor = "#ff4d4d";
+    ctx.shadowBlur = 10;
 
-        requestAnimationFrame(animar);
+    ctx.fillText(texto, x, 70);
+
+    if (indoDireita) {
+      x += velocidade;
+      if (x > canvas.width - ctx.measureText(texto).width) {
+        indoDireita = false;
+      }
+    } else {
+      x -= velocidade;
+      if (x < 0) {
+        indoDireita = true;
+      }
     }
 
-    animar();
+    requestAnimationFrame(desenhar);
+  }
+
+  function alterarTexto() {
+    const novo = document.getElementById("inputText").value.trim();
+    if (novo !== "") {
+      texto = novo;
+      x = canvas.width;
+    }
+  }
+
+  desenhar();
 </script>
 
 </body>
